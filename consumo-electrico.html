@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Consumo Eléctrico</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    padding:20px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+h1{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.resultado{
+    margin-top:20px;
+    padding:15px;
+    background:#f0fdf4;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚡ Calculadora de Consumo Eléctrico</h1>
+
+<label>Potencia (W)</label>
+<input type="number" id="potencia" value="650">
+
+<label>Horas por día</label>
+<input type="number" id="horas" value="12">
+
+<label>Cantidad de equipos</label>
+<input type="number" id="cantidad" value="1">
+
+<label>Costo por kWh ($)</label>
+<input type="number" id="costo" value="150">
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultado" class="resultado" style="display:none;">
+    <p><strong>Consumo diario:</strong> <span id="dia"></span> kWh</p>
+    <p><strong>Consumo mensual:</strong> <span id="mes"></span> kWh</p>
+    <p><strong>Costo diario:</strong> $<span id="costodia"></span></p>
+    <p><strong>Costo mensual:</strong> $<span id="costomes"></span></p>
+</div>
+
+</div>
+
+<script>
+
+function calcular(){
+
+    let potencia = parseFloat(document.getElementById("potencia").value);
+    let horas = parseFloat(document.getElementById("horas").value);
+    let cantidad = parseFloat(document.getElementById("cantidad").value);
+    let costo = parseFloat(document.getElementById("costo").value);
+
+    let consumoDia = (potencia * horas * cantidad) / 1000;
+    let consumoMes = consumoDia * 30;
+
+    let costoDia = consumoDia * costo;
+    let costoMes = consumoMes * costo;
+
+    document.getElementById("dia").innerText =
+        consumoDia.toFixed(2);
+
+    document.getElementById("mes").innerText =
+        consumoMes.toFixed(2);
+
+    document.getElementById("costodia").innerText =
+        costoDia.toFixed(0);
+
+    document.getElementById("costomes").innerText =
+        costoMes.toFixed(0);
+
+    document.getElementById("resultado").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
