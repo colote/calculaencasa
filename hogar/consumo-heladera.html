@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calculadora de Consumo de Heladera | CalculaEnCasa</title>
+
+<link rel="stylesheet" href="../css/global.css">
+
+<style>
+
+.calculadora{
+    max-width:700px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+
+.calculadora h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.resultado{
+    margin-top:30px;
+    padding:20px;
+    background:#f8fafc;
+    border-radius:10px;
+    display:none;
+}
+
+.resultado p{
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<div class="container">
+
+    <div class="calculadora">
+
+        <h1>❄️ Calculadora de Consumo de Heladera</h1>
+
+        <div class="form-group">
+            <label>Tipo de Heladera</label>
+
+            <select id="tipo">
+                <option value="">Seleccionar</option>
+                <option value="80">Pequeña (80W)</option>
+                <option value="120">Mediana (120W)</option>
+                <option value="180">Grande (180W)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Potencia del compresor (W)</label>
+            <input type="number" id="potencia" placeholder="Ej: 120">
+        </div>
+
+        <div class="form-group">
+            <label>Horas efectivas por día</label>
+            <input type="number" id="horas" value="10">
+        </div>
+
+        <div class="form-group">
+            <label>Precio del kWh ($)</label>
+            <input type="number" id="precio" placeholder="Ej: 120">
+        </div>
+
+        <button onclick="calcular()">
+            Calcular Consumo
+        </button>
+
+        <div class="resultado" id="resultado">
+
+            <p><strong>Consumo diario:</strong> <span id="diario"></span></p>
+
+            <p><strong>Consumo mensual:</strong> <span id="mensual"></span></p>
+
+            <p><strong>Costo mensual:</strong> <span id="costoMensual"></span></p>
+
+            <p><strong>Costo anual:</strong> <span id="costoAnual"></span></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="footer"></div>
+
+<script src="../js/includes.js"></script>
+
+<script>
+
+document.getElementById("tipo").addEventListener("change", function(){
+
+    if(this.value !== ""){
+        document.getElementById("potencia").value = this.value;
+    }
+
+});
+
+function calcular(){
+
+    const potencia = parseFloat(document.getElementById("potencia").value);
+    const horas = parseFloat(document.getElementById("horas").value);
+    const precio = parseFloat(document.getElementById("precio").value);
+
+    if(isNaN(potencia) || isNaN(horas) || isNaN(precio)){
+
+        alert("Completá todos los campos.");
+        return;
+
+    }
+
+    const consumoDiario = (potencia * horas) / 1000;
+
+    const consumoMensual = consumoDiario * 30;
+
+    const costoMensual = consumoMensual * precio;
+
+    const costoAnual = costoMensual * 12;
+
+    document.getElementById("diario").innerHTML =
+        consumoDiario.toFixed(2) + " kWh";
+
+    document.getElementById("mensual").innerHTML =
+        consumoMensual.toFixed(2) + " kWh";
+
+    document.getElementById("costoMensual").innerHTML =
+        "$ " + costoMensual.toLocaleString('es-AR');
+
+    document.getElementById("costoAnual").innerHTML =
+        "$ " + costoAnual.toLocaleString('es-AR');
+
+    document.getElementById("resultado").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>
